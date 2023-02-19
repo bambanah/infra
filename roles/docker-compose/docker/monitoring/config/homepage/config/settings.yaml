@@ -1,0 +1,24 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/settings
+
+providers:
+  openweathermap: openweathermapapikey
+  weatherapi: weatherapiapikey
+
+title: Archibald
+favicon: /img/proxmox.ico
+theme: dark
+color: slate
+headerStyle: clean
+
+layout:
+  Media:
+    style: row
+    columns: 4
+  File Management:
+    style: row
+    columns: 4
+  Network:
+    style: row
+    columns: 4

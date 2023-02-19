@@ -1,0 +1,15 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/bookmarks
+
+- Homelab:
+    - Cloudflare:
+        - abbr: CF
+          icon: cloudflare
+          href: https://dash.cloudflare.com
+
+- Developer:
+    - Github:
+        - abbr: GH
+          icon: github
+          href: https://github.com/

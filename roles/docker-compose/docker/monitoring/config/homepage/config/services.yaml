@@ -1,0 +1,87 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/services
+
+- Media:
+    - Plex:
+        icon: plex
+        href: http://plex.local/
+        description: Media Server
+        server: my-docker
+        container: plex
+        widget:
+          type: tautulli
+          url: http://tautulli.local
+          key: 897cee2cf5734651a5ee2fe2f5556356
+
+    - Overseerr:
+        icon: overseerr
+        href: http://request.local/
+        description: Media Requests
+        server: my-docker
+        container: overseerr
+        widget:
+          type: overseerr
+          url: http://request.local
+          key: MTY3NDUyNDAxOTYwNmNhYzllZjIyLTFkY2UtNGEyYS04ZjQxLTZhNTMyNWI3NTgzYSk=
+
+    - Radarr:
+        icon: radarr8
+        href: http://radarr:787
+        description: Movie Management
+        server: my-docker
+        container: radarr
+        widget:
+          type: radarr
+          url: http://radarr.local
+          key: 0d07a8a68105433493a13097cd391020
+
+    - Sonarr:
+        icon: sonarr
+        href: http://sonarr.local/
+        description: Series Management
+        server: my-docker
+        container: sonarr
+        widget:
+          type: sonarr
+          url: http://sonarr.local
+          key: 234759b9bd9046409b02c90eadfad668
+
+- File Management:
+    - qBitTorrent:
+        icon: qbittorrent
+        href: http://torrent.local/
+        description: Torrent Downloader
+        widget:
+          type: qbittorrent
+          url: http://torrent.local
+          username: admin
+          password: adminadmin
+    - Prowlarr:
+        icon: prowlarr
+        href: http://prowlarr.local/
+        description: Media Indexer
+        widget:
+          type: prowlarr
+          url: http://prowlarr.local
+          key: aa92ea0c723f4c0bb3e5ca4f88b6371a
+
+- Network:
+    - Pi-Hole:
+        href: http://pi.hole/
+        description: Network-Wide Ad Blocker
+        icon: pihole
+        widget:
+          type: pihole
+          url: http://pi.hole
+          key: 998ed4d621742d0c2d85ed84173db569afa194d4597686cae947324aa58ab4bb
+
+    - Nginx Proxy Manager:
+        href: http://nginx.local/
+        description: Reverse Proxy Manager
+        icon: nginxproxymanager
+        widget:
+          type: npm
+          url: http://nginx.local
+          username: lachlanu@gmail.com
+          password: JesusTakeTheWheelN1!
