@@ -3,23 +3,24 @@
   when: docker_stacks is defined or docker_services is defined
   block:
     - name: Get user info
-      getent:
+      ansible.builtin.getent:
         key: "{{ username }}"
         database: passwd
 
     - name: Install Python and python3-pip
-      package:
+      ansible.builtin.package:
         name:
           - python3
           - python3-pip
         state: present
 
     - name: Install docker module for Python
-      pip:
+      ansible.builtin.pip:
         name:
           - docker
           - docker-compose
 
+    # TODO: Combine into one task
     - name: Verify docker directories exist
       ansible.builtin.file:
         path: "{{ item }}"
@@ -31,27 +32,31 @@
         - "{{ docker_compose_dir }}"
         - "{{ docker_config_dir }}"
 
-    - name: Copy docker-compose files
-      template:
-        src: "./docker/{{ item }}/docker-compose.yml.j2"
-        dest: "{{ docker_compose_dir}}/{{ item }}/docker.compose.yml"
+    - name: Verify docker-compose directories exist
+      ansible.builtin.file:
+        path: "{{ docker_compose_dir }}/{{ item }}"
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: 0755
       loop: "{{ docker_stacks }}"
 
-    - name: Check docker config exists
-      stat:
-        path: "./docker/{{ item }}/config/"
-      register: config_dir
+    - name: Copy docker-compose files
+      ansible.builtin.template:
+        src: "files/{{ item }}/docker-compose.yml.j2"
+        dest: "{{ docker_compose_dir }}/{{ item }}/docker-compose.yml"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: 0755
       loop: "{{ docker_stacks }}"
 
     - name: Copy docker config files
-      copy:
-        src: "{{ item.item }}"
+      ansible.builtin.copy:
+        src: "files/config/"
         dest: "{{ docker_config_dir }}/"
         owner: "{{ username }}"
         group: "{{ username }}"
         mode: 0755
-      when: item.stat.exists
-      loop: "{{ config_dir.results }}"
 
     - name: Docker-compose up
       community.docker.docker_compose:

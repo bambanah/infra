@@ -1,0 +1,78 @@
+version: "3.9"
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID={{ getent_passwd[username].1 }}
+      - PGID={{ getent_passwd[username].2 }}
+      - TZ={{ timezone }}
+      - JELLYFIN_PublishedServerUrl={{ ansible_host }}
+    volumes:
+      - /mnt/config/jellyfin:/config
+      - "{{ data_root }}:/data"
+    ports:
+      - "{{ jellyfin_port }}:8096"
+    restart: unless-stopped
+    labels:
+      # Homepage config
+      - homepage.group=Media
+      - homepage.name=Jellyfin
+      - homepage.icon=jellyfin
+      - homepage.href=http://jellyfin.local
+      - homepage.description=Media Server
+      - homepage.weight=2
+      {% if jellyfin_api_key %}
+
+      - homepage.widget.type=jellyfin
+      - homepage.widget.url=http://{{ homepage_base_url }}:{{ jellyfin_port }}
+      - homepage.widget.key={{ jellyfin_api_key }}
+      {% endif %}
+
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    environment:
+      - PUID={{ getent_passwd[username].1 }}
+      - PGID={{ getent_passwd[username].2 }}
+      - VERSION=docker
+      - TZ={{ timezone }}
+      - PLEX_CLAIM={{ plex_claim }}
+    volumes:
+      - /mnt/config/plex:/config
+      - "{{ data_root }}:/data"
+    ports:
+      - "{{ plex_port }}:32400/tcp"
+    restart: unless-stopped
+    labels:
+      # Homepage config
+      - homepage.group=Media
+      - homepage.name=Plex
+      - homepage.icon=plex
+      - homepage.href=http://plex.local
+      - homepage.description=Media Server
+      - homepage.weight=1
+      {% if tautulli_api_key %}
+
+      - homepage.widget.type=tautulli
+      - homepage.widget.url=http://{{ homepage_base_url }}:{{ tautulli_port }}
+      - homepage.widget.key={{ tautulli_api_key }}
+      {% endif %}
+
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      - PUID={{ getent_passwd[username].1 }}
+      - PGID={{ getent_passwd[username].2 }}
+      - TZ={{ timezone }}
+    volumes:
+      - /mnt/config/tautulli:/config
+    ports:
+      - "{{ tautulli_port }}:8181"
+    restart: unless-stopped
+
+networks:
+  default:
+    name: media-proxy
+    external: true

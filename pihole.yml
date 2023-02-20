@@ -1,6 +1,6 @@
 ---
-- name: Set up machine
-  hosts: home
+- name: Set up pihole
+  hosts: pihole
 
   pre_tasks:
     - name: Juggle SSH Ports
@@ -17,15 +17,5 @@
       tags: "system"
     - role: geerlingguy.security
       tags: "security"
-
-- name: Set up media server
-  hosts: home
-
-  gather_facts: yes
-  become: yes
-
-  roles:
-    - role: geerlingguy.docker
-      tags: "docker-install"
-    - role: containers
-      tags: "containers"
+    - role: pihole
+      tags: "pihole"

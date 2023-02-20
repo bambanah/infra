@@ -20,7 +20,7 @@
       - users
     append: true
 
-- name: Allow '{{ sudo_group }}' group to have passwordless sudo
+- name: "Allow group to have passwordless sudo: '{{ sudo_group }}'"
   lineinfile:
     path: /etc/sudoers
     state: present
@@ -41,7 +41,7 @@
   ansible.posix.authorized_key:
     user: "{{ username }}"
     state: present
-    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/{{ ssh_public_key }}.pub') }}"
+    key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/{{ ssh_public_key }}.pub') }}"
 
 - name: Suppress login message (hushlogin)
   copy:

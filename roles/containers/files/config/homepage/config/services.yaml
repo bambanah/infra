@@ -1,0 +1,12 @@
+---
+# https://gethomepage.dev/en/configs/services
+
+- Networking:
+    - Pi-Hole:
+        href: http://pi.hole/
+        description: Network-Wide Ad Blocker
+        icon: pihole
+        widget:
+          type: pihole
+          url: http://10.0.0.5
+          key: 87fbf8b2a433ea818d49df2b0586b79128b901c41a6574289307b85370a1d8e4

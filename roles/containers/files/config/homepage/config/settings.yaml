@@ -1,0 +1,18 @@
+---
+# https://gethomepage.dev/en/configs/settings
+
+title: Archibald Homepage
+theme: dark
+color: slate
+headerStyle: clean
+
+layout:
+  Media:
+    style: row
+    columns: 4
+  File Management:
+    style: row
+    columns: 3
+  Networking:
+    style: row
+    columns: 3

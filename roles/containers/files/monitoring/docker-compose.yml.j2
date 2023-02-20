@@ -1,18 +1,5 @@
 version: "3.9"
 services:
-  tautulli:
-    image: lscr.io/linuxserver/tautulli:latest
-    container_name: tautulli
-    environment:
-      - PUID={{ getent_passwd[username].1 }}
-      - PGID={{ getent_passwd[username].2 }}
-      - TZ={{ timezone }}
-    volumes:
-      - /mnt/config/tautulli:/config
-    ports:
-      - "{{ tautulli_port | default(8181) }}:8181"
-    restart: unless-stopped
-
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: dockerproxy
@@ -32,8 +19,22 @@ services:
       - PUID={{ getent_passwd[username].1 }}
       - PGID={{ getent_passwd[username].2 }}
     ports:
-      - "{{ homepage_port | default(3000) }}:3000"
+      - "{{ homepage_port }}:3000"
     volumes:
-      - ./mnt/config/homepage/config:/app/config
+      - /mnt/config/homepage/config:/app/config
       - /mnt/config/homepage/img:/app/public/img
     restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_CLEANUP=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  default:
+    name: media-proxy
+    external: true

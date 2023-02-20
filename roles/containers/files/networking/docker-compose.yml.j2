@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  # TODO: Replace with
+  nginxproxymanager:
+    container_name: nginx-proxy-manager
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '{{ npm_web_port }}:81'
+    volumes:
+      - /mnt/config/nginxproxymanager/data:/data
+      - /mnt/config/nginxproxymanager/letsencrypt:/etc/letsencrypt
+    labels:
+      # Homepage config
+      - homepage.group=Networking
+      - homepage.name=Nginx Proxy Manager
+      - homepage.icon=nginxproxymanager
+      - homepage.href=http://nginx.local
+      - homepage.description=Reverse Proxy Manager
+      - homepage.weight=-10
+      {% if prowlarr_api_key %}
+
+      - homepage.widget.type=npm
+      - homepage.widget.url=http://{{ homepage_base_url }}:{{ npm_web_port }}
+      - homepage.widget.username={{ npm_username }}
+      - homepage.widget.password={{ npm_password }}
+      {% endif %}
+
+  speedtest:
+    container_name: speedtest
+    image: henrywhitaker3/speedtest-tracker:latest
+    restart: unless-stopped
+    environment:
+      - PUID={{ getent_passwd[username].1 }}
+      - PGID={{ getent_passwd[username].2 }}
+      - TZ={{ timezone }}
+      - OOKLA_EULA_GDPR=true
+    ports:
+      - 8765:80
+    volumes:
+      - /mnt/config/speedtest:/config
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "200k"
+    labels:
+      # Homepage config
+      - homepage.group=Networking
+      - homepage.name=Speed Test
+      - homepage.icon=speedtest
+      - homepage.description=Speed Test
+      - homepage.weight=20
+
+      - homepage.widget.type=speedtest
+      - homepage.widget.url=http://{{ homepage_base_url }}:{{ 8765 }}
+

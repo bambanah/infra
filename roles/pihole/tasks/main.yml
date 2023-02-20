@@ -1,0 +1,13 @@
+---
+- name: Install and configure pihole
+  ansible.builtin.debug:
+    msg: "Do something"
+
+- name: Copy DNS rules
+  template:
+    src: custom.list.j2
+    dest: /etc/pihole/custom.list
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart pihole dns

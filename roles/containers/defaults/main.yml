@@ -1,0 +1,55 @@
+---
+# --------------------------- IP/Port Mappings ---------------------------
+
+homepage_port: 3000
+
+plex_port: 32400
+plex_claim: claim-XG9e8cy-Y6765qfNVR5t
+
+jellyfin_port: 8096
+
+tautulli_port: 8181
+radarr_port: 7878
+sonarr_port: 8989
+bazarr_port: 6767
+
+prowlarr_port: 9696
+overseerr_port: 5055
+
+qbittorrent_port: 8080
+qbittorrent_privoxy_port: 8118
+
+npm_web_port: 81
+
+# --------------------------- Homepage Credentials ---------------------------
+
+homepage_base_url: "{{ ansible_host }}"
+
+tautulli_api_key: "{{ vault_tautulli_api_key }}"
+radarr_api_key: "{{ vault_radarr_api_key }}"
+sonarr_api_key: "{{ vault_sonarr_api_key }}"
+jellyfin_api_key: "{{ vault_jellyfin_api_key }}"
+
+prowlarr_api_key: "{{ vault_prowlarr_api_key }}"
+overseerr_api_key: "{{ vault_overseerr_api_key }}"
+
+bazarr_api_key: "{{ vault_bazarr_api_key }}"
+
+qbittorrent_username: "{{ vault_qbittorrent_username }}"
+qbittorrent_password: "{{ vault_qbittorrent_password }}"
+
+npm_username: "{{ vault_npm_username }}"
+npm_password: "{{ vault_npm_password }}"
+
+# --------------------------- File/dir locations ---------------------------
+
+data_root: "/mnt/data"
+
+docker_compose_dir: "/home/{{ username }}/docker"
+docker_config_dir: "/mnt/config"
+
+docker_stacks:
+  - media
+  - media-server
+  - monitoring
+  - networking
