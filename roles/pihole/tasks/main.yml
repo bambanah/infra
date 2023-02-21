@@ -1,13 +1,53 @@
 ---
-- name: Install and configure pihole
-  ansible.builtin.debug:
-    msg: "Do something"
+- name: Disable systemd
+  ansible.builtin.service:
+    name: systemd-resolved
+    enabled: false
+    state: stopped
 
-- name: Copy DNS rules
+- name: Ensure target dirs exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+  loop:
+    - /etc/dnsmasq.d
+    - /etc/pihole
+    - /home/{{ username }}/pihole
+
+- name: Copy dnsmasq config
   template:
-    src: custom.list.j2
-    dest: /etc/pihole/custom.list
-    owner: root
-    group: root
-    mode: 0644
-  notify: Restart pihole dns
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+  loop:
+    - src: localnet.conf.j2
+      dest: /etc/dnsmasq.d/02-localnet.conf
+    - src: localnet.list.j2
+      dest: /etc/pihole/localnet.list
+    - src: pihole-docker-compose.yml.j2
+      dest: "/home/{{ username }}/pihole/docker-compose.yml"
+
+- name: Start/update pihole container
+  community.docker.docker_compose:
+    project_src: "/home/{{ username }}/pihole/"
+    build: false
+    restarted: true
+
+- name: Check pihole container
+  ansible.builtin.uri:
+    url: http://localhost/admin
+  register: result
+  until: result.status == 200
+  retries: 5
+  delay: 5
+
+- name: Remove old image versions
+  docker_prune:
+    images: yes
+    images_filters:
+      dangling: false

@@ -1,10 +1,10 @@
 ---
 - import_playbook: common.yml
   vars:
-    service: pihole
+    service: home
 
-- name: Set up pihole
-  hosts: pihole
+- name: Set up machine
+  hosts: home
   gather_facts: yes
   become: yes
 
@@ -13,5 +13,5 @@
       tags: "pip"
     - role: geerlingguy.docker
       tags: "docker"
-    - role: pihole
-      tags: "pihole"
+    - role: containers
+      tags: "containers"

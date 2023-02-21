@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  pihole:
+    container_name: pihole
+    image: "pihole/pihole:latest"
+    environment:
+      TZ: "{{ timezone }}"
+      WEBPASSWORD: "{{ password }}"
+      PIHOLE_DNS_: "{{ pihole_dns }}"
+      DNSMASQ_USER: root
+    network_mode: "host"
+    dns:
+      - 127.0.0.1
+      - "{{ static_dns }}"
+    volumes:
+      - "/etc/pihole:/etc/pihole"
+      - "/etc/dnsmasq.d:/etc/dnsmasq.d"
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped

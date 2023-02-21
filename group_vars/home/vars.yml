@@ -1,0 +1,6 @@
+---
+essential_packages:
+  - vim
+  - speedtest-cli
+
+ansible_password: "{{ vault_ansible_password }}"

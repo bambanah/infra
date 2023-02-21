@@ -37,7 +37,6 @@ services:
       - PGID={{ getent_passwd[username].2 }}
       - VERSION=docker
       - TZ={{ timezone }}
-      - PLEX_CLAIM={{ plex_claim }}
     volumes:
       - /mnt/config/plex:/config
       - "{{ data_root }}:/data"

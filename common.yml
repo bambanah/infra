@@ -1,0 +1,20 @@
+---
+- name: Bootstrap machine
+  gather_facts: no
+  become: yes
+  hosts: "{{ service }}"
+
+  pre_tasks:
+    - name: Juggle SSH Ports
+      ansible.builtin.import_tasks: tasks/juggle_ssh_port.yml
+      tags:
+        - always
+        - port
+    - name: Gather facts
+      setup:
+
+  roles:
+    - role: system
+      tags: "system"
+    - role: geerlingguy.security
+      tags: "security"

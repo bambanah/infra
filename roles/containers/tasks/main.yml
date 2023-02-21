@@ -7,20 +7,6 @@
         key: "{{ username }}"
         database: passwd
 
-    - name: Install Python and python3-pip
-      ansible.builtin.package:
-        name:
-          - python3
-          - python3-pip
-        state: present
-
-    - name: Install docker module for Python
-      ansible.builtin.pip:
-        name:
-          - docker
-          - docker-compose
-
-    # TODO: Combine into one task
     - name: Verify docker directories exist
       ansible.builtin.file:
         path: "{{ item }}"
@@ -43,22 +29,28 @@
 
     - name: Copy docker-compose files
       ansible.builtin.template:
-        src: "files/{{ item }}/docker-compose.yml.j2"
+        src: "{{ item }}-docker-compose.yml.j2"
         dest: "{{ docker_compose_dir }}/{{ item }}/docker-compose.yml"
         owner: "{{ username }}"
         group: "{{ username }}"
         mode: 0755
       loop: "{{ docker_stacks }}"
+      register: docker_compose_copy_result
 
     - name: Copy docker config files
       ansible.builtin.copy:
-        src: "files/config/"
+        src: "docker-config/"
         dest: "{{ docker_config_dir }}/"
         owner: "{{ username }}"
         group: "{{ username }}"
         mode: 0755
 
+    - name: Create docker proxy network
+      community.docker.docker_network:
+        name: media-proxy
+
     - name: Docker-compose up
       community.docker.docker_compose:
-        project_src: "{{ docker_compose_dir }}/{{ item }}"
-      loop: "{{ docker_stacks }}"
+        project_src: "{{ docker_compose_dir }}/{{ item.item }}"
+      when: item.changed
+      loop: "{{ docker_compose_copy_result.results }}"

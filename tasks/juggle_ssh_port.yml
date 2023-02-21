@@ -5,13 +5,14 @@
   ignore_errors: true
   register: _ssh_port_result
 
-- name: SSH Port Juggle | Set the ansible_port to the fallback default port
+- name: SSH Port Juggle | Set ansible_ssh_port to default 22
   set_fact:
+    original_ssh_port: "{{ ansible_ssh_port }}"
     ansible_ssh_port: "22"
   when:
     - _ssh_port_result is failed
 
-- name: SSH Port Juggle | Try connecting again
+- name: SSH Port Juggle | Try connecting with default port
   wait_for_connection:
     timeout: 5
   ignore_errors: true
@@ -19,32 +20,28 @@
   when:
     - _ssh_port_result is failed
 
-- name: SSH Port Juggle | Try root
+- name: SSH Port Juggle | Set ansible_user to root
   set_fact:
-    ansible_ssh_port: "22"
-    ansible_ssh_user: "root"
+    original_user: "{{ ansible_user }}"
+    ansible_user: "root"
   when:
     - _ssh_port_result is failed
     - _ssh_port_default_result is failed
-    - _ssh_port_default_cred_result is failed
 
-- name: Try root
+- name: SSH Port Juggle | Try connecting with root user
   wait_for_connection:
     timeout: 5
   ignore_errors: true
-  register: _ssh_port_default_cred_result
+  register: _ssh_port_root_result
   when:
     - _ssh_port_result is failed
     - _ssh_port_default_result is failed
-    - _ssh_port_default_cred_result is failed
 
 - name: SSH Port Juggle | Fail
-  fail: msg="Neither the configured ansible_port {{ ansible_port }} nor the fallback port 22 were reachable"
+  fail:
+    msg: "Unable to SSH with port {{ original_ssh_port }}, port 22, or the root user"
+  register: ssh_juggle_fail
   when:
     - _ssh_port_result is failed
-    - _ssh_port_default_result is defined
     - _ssh_port_default_result is failed
-    - _ssh_port_default_cred_result is defined
-    - _ssh_port_default_cred_result is failed
-    - _ssh_port_root_result is defined
     - _ssh_port_root_result is failed

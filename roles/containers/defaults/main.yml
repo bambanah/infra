@@ -4,7 +4,6 @@
 homepage_port: 3000
 
 plex_port: 32400
-plex_claim: claim-XG9e8cy-Y6765qfNVR5t
 
 jellyfin_port: 8096
 
@@ -49,7 +48,7 @@ docker_compose_dir: "/home/{{ username }}/docker"
 docker_config_dir: "/mnt/config"
 
 docker_stacks:
-  - media
+  - networking
+  - media-management
   - media-server
   - monitoring
-  - networking

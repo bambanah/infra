@@ -1,9 +1,11 @@
 ---
 ansible_connection: ssh
-ansible_ssh_port: 22
 
-ansible_user: administrator
-username: "{{ ansible_user }}"
+# SSH port to set
+security_ssh_port: 50
+ansible_ssh_port: 50
+
+ansible_user: "{{ username }}"
 password: "{{ vault_ansible_password }}"
 
 timezone: "Australia/Brisbane"
@@ -12,8 +14,6 @@ shell: /bin/bash
 ssh_public_key: id_ed25519
 
 # geerlingguy.security
-security_ssh_port: "{{ ansible_ssh_port }}"
-
 security_sudoers_passwordless: ["{{ username }}"]
 security_autoupdate_enabled: true
 security_autoupdate_reboot: true

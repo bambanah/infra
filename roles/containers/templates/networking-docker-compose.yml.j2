@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  # TODO: Replace with
+  # TODO: Replace with Traefik
   nginxproxymanager:
     container_name: nginx-proxy-manager
     image: 'jc21/nginx-proxy-manager:latest'
@@ -58,3 +58,7 @@ services:
       - homepage.widget.type=speedtest
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ 8765 }}
 
+networks:
+  default:
+    name: media-proxy
+    external: true

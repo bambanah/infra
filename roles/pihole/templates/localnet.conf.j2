@@ -1,0 +1,5 @@
+{% for override in dns_overrides %}
+{% for domain in override.domains %}
+address=/{{ domain }}/{{ override.ip }}
+{% endfor %}
+{% endfor %}

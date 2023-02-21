@@ -1,3 +1,0 @@
----
-- name: Restart pihole dns
-  ansible.builtin.command: pihole restartdns

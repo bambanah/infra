@@ -1,0 +1,33 @@
+---
+essential_packages:
+  - vim
+  - curl
+  - sudo
+
+ansible_password: "{{ vault_ansible_password }}"
+
+static_dns: "1.1.1.1" # Cloudflare
+
+pihole_dns: "1.1.1.1;2606:4700:4700::1111"
+
+dns_overrides:
+  - ip: 10.0.0.10
+    domains:
+      - radarr.local
+      - sonarr.local
+      - dash.local
+      - jellyfin.local
+      - nginx.local
+      - plex.local
+      - prowlarr.local
+      - tautulli.local
+      - torrent.local
+
+# geerlingguy.pip
+pip_install_packages:
+  - name: requests
+  - name: docker
+  - name: docker-compose
+
+# geerlingguy.docker
+docker_install_compose_plugin: true

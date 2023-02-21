@@ -11,14 +11,19 @@
     - "{{ username }}"
 
 - name: Create a login user
+  become: true
   user:
     name: "{{ username }}"
     password: "{{ password | password_hash('sha512') }}"
+    shell: "{{ shell }}"
     groups:
       - "{{ sudo_group }}"
       - docker
       - users
     append: true
+
+- name: Reset connection so group change is picked up.
+  meta: reset_connection
 
 - name: "Allow group to have passwordless sudo: '{{ sudo_group }}'"
   lineinfile:
@@ -41,7 +46,7 @@
   ansible.posix.authorized_key:
     user: "{{ username }}"
     state: present
-    key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/{{ ssh_public_key }}.pub') }}"
+    key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/{{ ssh_public_key | default(id_ed25519) }}.pub') }}"
 
 - name: Suppress login message (hushlogin)
   copy:

@@ -1,5 +1,0 @@
----
-pip_install_packages:
-  - name: docker
-
-pihole_ip: 192.168.4.50
