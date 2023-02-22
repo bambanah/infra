@@ -18,6 +18,8 @@ overseerr_port: 5055
 qbittorrent_port: 8080
 qbittorrent_privoxy_port: 8118
 
+speedtest_port: 8765
+
 npm_web_port: 81
 
 # --------------------------- Homepage Credentials ---------------------------
