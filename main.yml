@@ -1,3 +1,3 @@
 ---
-- ansible.builtin.import_playbook: media-server.yml
+- ansible.builtin.import_playbook: media.yml
 - ansible.builtin.import_playbook: pihole.yml

@@ -24,6 +24,7 @@
     mode: 0755
   loop: "{{ docker_stacks }}"
 
+# TODO: Speed this up? Takes a long time
 - name: Copy docker config files
   ansible.builtin.copy:
     src: "docker-config/"
