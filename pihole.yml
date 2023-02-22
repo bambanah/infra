@@ -5,8 +5,8 @@
   become: yes
 
   pre_tasks:
-    - ansible.builtin.import_tasks: tasks/juggle_ssh_port.yml
-    - setup:
+    - ansible.builtin.import_tasks: tasks/shared.yml
+      tags: "always"
 
   roles:
     - role: common
