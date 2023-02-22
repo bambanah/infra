@@ -1,14 +1,18 @@
 ---
-- import_playbook: common.yml
-  vars:
-    service: home
-
 - name: Set up machine
   hosts: home
-  gather_facts: yes
+  gather_facts: no # Gather facts after SSH juggle, in case we can't connect yet
   become: yes
 
+  pre_tasks:
+    - ansible.builtin.import_tasks: tasks/juggle_ssh_port.yml
+    - setup:
+
   roles:
+    - role: common
+      tags: "common"
+    - role: geerlingguy.security
+      tags: "security"
     - role: geerlingguy.pip
       tags: "pip"
     - role: geerlingguy.docker

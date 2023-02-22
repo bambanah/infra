@@ -1,9 +1,0 @@
----
-- name: Set timezone
-  community.general.timezone:
-    name: "{{ timezone }}"
-
-- name: Install essential packages
-  package:
-    name: "{{ essential_packages }}"
-    state: present

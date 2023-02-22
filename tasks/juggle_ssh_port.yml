@@ -40,7 +40,6 @@
 - name: SSH Port Juggle | Fail
   fail:
     msg: "Unable to SSH with port {{ original_ssh_port }}, port 22, or the root user"
-  register: ssh_juggle_fail
   when:
     - _ssh_port_result is failed
     - _ssh_port_default_result is failed
