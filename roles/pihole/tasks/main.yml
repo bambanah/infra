@@ -17,6 +17,16 @@
     - /etc/pihole
     - /home/{{ username }}/pihole
 
+- name: Get DNS overrides from Traefik
+  include_tasks: traefik.yml
+  when: traefik_hosts is defined
+  loop: "{{ traefik_hosts }}"
+  tags: "traefik"
+  args:
+    apply:
+      tags:
+        - "traefik"
+
 - name: Copy dnsmasq config
   template:
     src: "{{ item.src }}"
@@ -27,8 +37,6 @@
   loop:
     - src: localnet.conf.j2
       dest: /etc/dnsmasq.d/02-localnet.conf
-    - src: localnet.list.j2
-      dest: /etc/pihole/localnet.list
     - src: pihole-docker-compose.yml.j2
       dest: "/home/{{ username }}/pihole/docker-compose.yml"
 

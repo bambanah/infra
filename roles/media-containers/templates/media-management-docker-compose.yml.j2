@@ -14,6 +14,7 @@ services:
       - "{{ radarr_port }}:7878/tcp"
     restart: unless-stopped
     labels:
+      - traefik.enable=true
       - homepage.group=Media
       - homepage.name=Radarr
       - homepage.icon=radarr
@@ -39,6 +40,7 @@ services:
       - "{{ sonarr_port }}:8989/tcp"
     restart: unless-stopped
     labels:
+      - traefik.enable=true
       - homepage.group=Media
       - homepage.name=Sonarr
       - homepage.icon=sonarr
@@ -63,6 +65,8 @@ services:
       - "{{ overseerr_port }}:5055/tcp"
     restart: unless-stopped
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.overseerr.rule=Host(`request.local.lachie.xyz`)
       - homepage.group=Media
       - homepage.name=Overseerr
       - homepage.icon=overseerr
@@ -87,6 +91,8 @@ services:
       - "{{ prowlarr_port }}:9696/tcp"
     restart: unless-stopped
     labels:
+      - traefik.enable=true
+
       - homepage.group=File Management
       - homepage.name=Prowlarr
       - homepage.icon=prowlarr
@@ -123,12 +129,15 @@ services:
       - "{{ data_root }}:/data"
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "{{ qbittorrent_port }}:8080/tcp"
+      - "{{ qbittorrent_port }}:{{ qbittorrent_port }}/tcp"
       - "{{ qbittorrent_privoxy_port }}:8118/tcp"
       - "6881:6881"
       - "6881:6881/udp"
     restart: unless-stopped
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.rule=Host(`torrent.local.lachie.xyz`)
+
       - homepage.group=File Management
       - homepage.name=qBitTorrent
       - homepage.icon=qbittorrent
@@ -155,6 +164,7 @@ services:
       - "{{ bazarr_port }}:6767"
     restart: unless-stopped
     labels:
+      - traefik.enable=true
       - homepage.group=File Management
       - homepage.name=Bazarr
       - homepage.icon=bazarr

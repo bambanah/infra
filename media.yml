@@ -20,4 +20,4 @@
     - role: geerlingguy.docker
       tags: "docker"
     - role: media-containers
-      tags: "media"
+      tags: "containers"

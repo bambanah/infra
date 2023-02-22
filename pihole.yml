@@ -18,4 +18,6 @@
     - role: geerlingguy.docker
       tags: "docker"
     - role: pihole
-      tags: "pihole"
+      tags:
+        - "pihole"
+        - "containers"

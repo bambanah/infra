@@ -1,5 +1,5 @@
-{% for override in dns_overrides %}
-{% for domain in override.domains %}
-address=/{{ domain }}/{{ override.ip }}
+{% for override in dns_overrides | dict2items %}
+{% for domain in override.value %}
+address=/{{ domain }}/{{ override.key }}
 {% endfor %}
 {% endfor %}

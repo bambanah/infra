@@ -2,8 +2,11 @@
 
 aliasFileLoc="$HOME/.aliases"
 declare -A aliases=(
-    ["pb"]="ansible-playbook"
-    ["pbt"]="ansible-playbook main.yml --tags"
+    ["a"]="ansible"
+    ["ap"]="ansible-playbook"
+    ["ag"]="ansible-galaxy"
+    ["al"]="ansible-lint"
+    ["av"]="ansible-vault"
 )
 
 if [ ! -f $aliasFileLoc ]; then

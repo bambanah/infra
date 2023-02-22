@@ -20,10 +20,15 @@ services:
       - PGID={{ getent_passwd[username].2 }}
     ports:
       - "{{ homepage_port }}:3000"
+    dns:
+      - 10.0.0.5 # pihole TODO: Move to variable
+      - 1.1.1.1 # Cloudflare
     volumes:
       - /mnt/config/homepage/config:/app/config
       - /mnt/config/homepage/img:/app/public/img
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
 
 networks:
   default:

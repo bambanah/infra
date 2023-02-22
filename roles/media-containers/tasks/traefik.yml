@@ -1,0 +1,24 @@
+---
+- name: Ensure the htpasswd packages are installed.
+  package:
+    name:
+      - apache2-utils
+      - python3-passlib
+    state: present
+
+- name: Ensure htpasswd credentials are configured.
+  htpasswd:
+    path: "{{ traefik_users_file }}"
+    name: "{{ traefik_username }}"
+    password: "{{ traefik_password }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "u+rw,g+r"
+
+- name: Verify acme.json exists
+  ansible.builtin.file:
+    path: "/mnt/config/traefik/acme.json"
+    state: touch
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0600

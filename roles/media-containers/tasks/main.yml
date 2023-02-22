@@ -1,4 +1,6 @@
 ---
+- ansible.builtin.import_tasks: traefik.yml
+
 - name: Get user info
   ansible.builtin.getent:
     key: "{{ username }}"

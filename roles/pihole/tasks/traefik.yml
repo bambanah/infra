@@ -1,0 +1,19 @@
+---
+# Get rule from routers with provider = "docker"
+- name: Get rules from Traefik
+  ansible.builtin.uri:
+    url: http://{{ item }}:8080/api/http/routers
+    return_content: true
+  register: traefik_routers
+  failed_when: traefik_routers.status != 200
+
+- name: Format traefik rules and add to any existing DNS overrides
+  ansible.builtin.set_fact:
+    dns_overrides: "{{ (dns_overrides | default({})) | combine(new_item) }}"
+  vars:
+    new_item: "{ '{{ item }}': {{ traefik_routers.json \
+      | selectattr('provider', '!=', 'internal') \
+      | map(attribute='rule') \
+      | map('regex_replace', '^Host\\(`(.*)`\\)$', '\\1') \
+      + (dns_overrides[item] | default([])) \
+      | unique }} }"

@@ -15,7 +15,7 @@ bazarr_port: 6767
 prowlarr_port: 9696
 overseerr_port: 5055
 
-qbittorrent_port: 8080
+qbittorrent_port: 8282
 qbittorrent_privoxy_port: 8118
 
 speedtest_port: 8765
@@ -39,8 +39,13 @@ bazarr_api_key: "{{ vault_bazarr_api_key }}"
 qbittorrent_username: "{{ vault_qbittorrent_username }}"
 qbittorrent_password: "{{ vault_qbittorrent_password }}"
 
-npm_username: "{{ vault_npm_username }}"
-npm_password: "{{ vault_npm_password }}"
+# Traefik
+traefik_username: "{{ vault_traefik_username }}"
+traefik_password: "{{ vault_traefik_password }}"
+traefik_users_file: /mnt/config/traefik/users
+
+cf_api_email: "{{ vault_cf_api_email }}"
+cf_dns_api_token: "{{ vault_cf_dns_api_token }}"
 
 # --------------------------- File/dir locations ---------------------------
 
