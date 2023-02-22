@@ -1,5 +1,5 @@
 ---
 - name: Restart docker compose stacks
-  loop: "{{ docker_compose_copy_result | selectattr('changed', 'equalto', true) | map(attribute='item') }}"
+  loop: "{{ docker_compose_copy_result.results | selectattr('changed', 'equalto', true) | map(attribute='item') }}"
   community.docker.docker_compose:
     project_src: "{{ docker_compose_dir }}/{{ item }}"
