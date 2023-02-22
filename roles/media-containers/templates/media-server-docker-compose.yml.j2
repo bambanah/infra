@@ -22,12 +22,11 @@ services:
       - homepage.href=http://jellyfin.local
       - homepage.description=Media Server
       - homepage.weight=2
-      {% if jellyfin_api_key %}
-
+{% if jellyfin_api_key %}
       - homepage.widget.type=jellyfin
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ jellyfin_port }}
       - homepage.widget.key={{ jellyfin_api_key }}
-      {% endif %}
+{% endif %}
 
   plex:
     image: lscr.io/linuxserver/plex:latest
@@ -51,12 +50,11 @@ services:
       - homepage.href=http://plex.local
       - homepage.description=Media Server
       - homepage.weight=1
-      {% if tautulli_api_key %}
-
+{% if tautulli_api_key %}
       - homepage.widget.type=tautulli
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ tautulli_port }}
       - homepage.widget.key={{ tautulli_api_key }}
-      {% endif %}
+{% endif %}
 
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest

@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   radarr:
     image: lscr.io/linuxserver/radarr
@@ -20,12 +21,11 @@ services:
       - homepage.href=http://radarr.local
       - homepage.description=Movie Management
       - homepage.weight=10
-      {% if radarr_api_key %}
-
+{% if radarr_api_key %}
       - homepage.widget.type=radarr
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ radarr_port }}
       - homepage.widget.key={{ radarr_api_key }}
-      {% endif %}
+{% endif %}
 
   sonarr:
     image: lscr.io/linuxserver/sonarr
@@ -47,12 +47,11 @@ services:
       - homepage.href=http://sonarr.local
       - homepage.description=Series Management
       - homepage.weight=20
-      {% if sonarr_api_key %}
-
+{% if sonarr_api_key %}
       - homepage.widget.type=sonarr
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ sonarr_port }}
       - homepage.widget.key={{ sonarr_api_key }}
-      {% endif %}
+{% endif %}
 
   overseerr:
     image: lscr.io/linuxserver/overseerr
@@ -73,12 +72,11 @@ services:
       - homepage.href=http://request.local
       - homepage.description=Media Requests
       - homepage.weight=30
-      {% if overseerr_api_key %}
-
+{% if overseerr_api_key %}
       - homepage.widget.type=overseerr
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ overseerr_port }}
       - homepage.widget.key={{ overseerr_api_key }}
-      {% endif %}
+{% endif %}
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -99,12 +97,11 @@ services:
       - homepage.href=http://prowlarr.local
       - homepage.description=Index Management
       - homepage.weight=10
-      {% if prowlarr_api_key %}
-
+{% if prowlarr_api_key %}
       - homepage.widget.type=prowlarr
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ prowlarr_port }}
       - homepage.widget.key={{ prowlarr_api_key }}
-      {% endif %}
+{% endif %}
 
   qbittorrent:
     image: binhex/arch-qbittorrentvpn
@@ -123,7 +120,7 @@ services:
       - VPN_CLIENT=openvpn
       - VPN_USER=tUJFr84VXBmMHzxT
       - VPN_PASS=Rkz6P5j2v0k71ysvfLrg6HOVATlL8bv8
-      - ENABLE_PRIVOXY=yes
+      - ENABLE_PRIVOXY=no
       - LAN_NETWORK=192.168.1.0/24
     volumes:
       - /mnt/config/qbittorrent:/config
@@ -142,13 +139,12 @@ services:
       - homepage.icon=qbittorrent
       - homepage.href=http://torrent.local
       - homepage.description=Torrent Downloader
-      {% if qbittorrent_username and qbittorrent_password %}
-
+{% if qbittorrent_username and qbittorrent_password %}
       - homepage.widget.type=qbittorrent
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ qbittorrent_port }}
       - homepage.widget.username={{ qbittorrent_username }}
       - homepage.widget.password={{ qbittorrent_password }}
-      {% endif %}
+{% endif %}
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -171,12 +167,11 @@ services:
       - homepage.weight=20
       - homepage.href=http://bazarr.local
       - homepage.description=Subtitle downloader
-      {% if bazarr_api_key %}
-
+{% if bazarr_api_key %}
       - homepage.widget.type=bazarr
       - homepage.widget.url=http://{{ homepage_base_url }}:{{ bazarr_port }}
       - homepage.widget.key={{ bazarr_api_key }}
-      {% endif %}
+{% endif %}
 
 networks:
   default:
