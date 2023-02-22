@@ -8,3 +8,11 @@ use_default_rules: true
 kinds:
   - playbook: "main.yml"
   - tasks: "**/tasks/*.yml"
+
+enable_list:
+  - empty-string-compare # opt-in
+  - no-log-password # opt-in
+  - no-same-owner # opt-in
+
+skip_list:
+  - "name[missing]"
