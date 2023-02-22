@@ -15,7 +15,6 @@ services:
       - "{{ jellyfin_port }}:8096"
     restart: unless-stopped
     labels:
-      # Homepage config
       - homepage.group=Media
       - homepage.name=Jellyfin
       - homepage.icon=jellyfin
@@ -43,7 +42,6 @@ services:
       - "{{ plex_port }}:32400/tcp"
     restart: unless-stopped
     labels:
-      # Homepage config
       - homepage.group=Media
       - homepage.name=Plex
       - homepage.icon=plex
