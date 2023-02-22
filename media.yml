@@ -17,5 +17,5 @@
       tags: "pip"
     - role: geerlingguy.docker
       tags: "docker"
-    - role: containers
-      tags: "containers"
+    - role: media-containers
+      tags: "media"
