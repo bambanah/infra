@@ -22,6 +22,7 @@ dns_overrides:
       - prowlarr.local
       - tautulli.local
       - torrent.local
+      - speedtest.local
 
 # geerlingguy.pip
 pip_install_packages:
