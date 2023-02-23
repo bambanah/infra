@@ -5,17 +5,23 @@ http:
         - https
       rule: Host(`proxmox.local.lachie.xyz`)
       service: proxmox
+    pihole:
+      entryPoints:
+        - https
+      rule: Host(`pihole.local.lachie.xyz`)
+      service: pihole
 
   services:
     proxmox:
       loadBalancer:
         servers:
           - url: "https://10.0.0.20:8006"
+    pihole:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.0.5"
 
   middlewares:
-    addprefix-pihole:
-      addPrefix:
-        prefix: "/admin"
     local-ipwhitelist:
       ipWhiteList:
         sourceRange:
@@ -34,12 +40,6 @@ http:
         customFrameOptionsValue: SAMEORIGIN
         customRequestHeaders:
           X-Forwarded-Proto: https
-
-    secured:
-      chain:
-        middlewares:
-          - local-ipwhitelist
-          - security-headers
 
 tls:
   options:

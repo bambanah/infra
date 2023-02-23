@@ -34,6 +34,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: 0755
+  tags: config
 
 - name: Create docker proxy network
   community.docker.docker_network:

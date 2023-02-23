@@ -4,7 +4,6 @@ global:
 
 api:
   dashboard: true
-  insecure: true
 
 serversTransport:
   insecureSkipVerify: true
@@ -24,7 +23,7 @@ entryPoints:
     address: ":443"
     http:
       tls:
-        certResolver: letsencrypt
+        certResolver: cloudflare
         domains:
           - main: local.lachie.xyz
             sans:
@@ -45,6 +44,7 @@ certificatesResolvers:
 
 providers:
   docker:
+    # {container_name}.{base_domain} e.g. radarr.local
     defaultRule: 'Host(`{{ coalesce (index .Labels "com.docker.compose.service") (lower .Name) }}.local.lachie.xyz`)'
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false

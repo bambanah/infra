@@ -3,7 +3,7 @@
 
 - Networking:
     - Pi-Hole:
-        href: http://pi.hole/
+        href: http://pihole.local.lachie.xyz/
         description: Network-Wide Ad Blocker
         icon: pihole
         widget:

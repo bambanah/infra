@@ -1,7 +1,7 @@
 ---
 # --------------------------- IP/Port Mappings ---------------------------
 
-homepage_port: 3000
+homepage_port: 3001
 
 plex_port: 32400
 
@@ -40,8 +40,6 @@ qbittorrent_username: "{{ vault_qbittorrent_username }}"
 qbittorrent_password: "{{ vault_qbittorrent_password }}"
 
 # Traefik
-traefik_username: "{{ vault_traefik_username }}"
-traefik_password: "{{ vault_traefik_password }}"
 traefik_users_file: /mnt/config/traefik/users
 
 cf_api_email: "{{ vault_cf_api_email }}"

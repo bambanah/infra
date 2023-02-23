@@ -8,8 +8,10 @@ ansible_password: "{{ vault_ansible_password }}"
 
 static_dns: "1.1.1.1" # Cloudflare
 pihole_dns: "1.1.1.1;2606:4700:4700::1111"
+
 traefik_hosts:
-  - 10.0.0.10
+  - 10.0.0.10: "https://traefik.{{ base_domain }}"
+
 # Not used, but might be useful at some point
 # dns_overrides:
 #   10.0.0.10:

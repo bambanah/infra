@@ -8,10 +8,15 @@ ansible_ssh_port: 50
 ansible_user: "{{ username }}"
 password: "{{ vault_ansible_password }}"
 
+traefik_username: "{{ vault_traefik_username }}"
+traefik_password: "{{ vault_traefik_password }}"
+
 timezone: "Australia/Brisbane"
 
 shell: /bin/bash
 ssh_public_key: id_ed25519
+
+base_domain: local.lachie.xyz
 
 # geerlingguy.security
 security_sudoers_passwordless: ["{{ username }}"]

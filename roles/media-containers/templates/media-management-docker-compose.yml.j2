@@ -15,10 +15,12 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
+      - traefik.http.routers.radarr.entrypoints=https
+
       - homepage.group=Media
       - homepage.name=Radarr
       - homepage.icon=radarr
-      - homepage.href=http://radarr.local
+      - homepage.href=https://radarr.{{ base_domain }}
       - homepage.description=Movie Management
       - homepage.weight=10
 {% if radarr_api_key %}
@@ -41,10 +43,12 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
+      - traefik.http.routers.sonarr.entrypoints=https
+
       - homepage.group=Media
       - homepage.name=Sonarr
       - homepage.icon=sonarr
-      - homepage.href=http://sonarr.local
+      - homepage.href=https://sonarr.{{ base_domain }}
       - homepage.description=Series Management
       - homepage.weight=20
 {% if sonarr_api_key %}
@@ -66,11 +70,13 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.overseerr.rule=Host(`request.local.lachie.xyz`)
+      - traefik.http.routers.overseerr.entrypoints=https
+      - traefik.http.routers.overseerr.rule=Host(`request.{{ base_domain }}`)
+
       - homepage.group=Media
       - homepage.name=Overseerr
       - homepage.icon=overseerr
-      - homepage.href=http://request.local
+      - homepage.href=https://request.{{ base_domain }}
       - homepage.description=Media Requests
       - homepage.weight=30
 {% if overseerr_api_key %}
@@ -92,11 +98,12 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
+      - traefik.http.routers.prowlarr.entrypoints=https
 
       - homepage.group=File Management
       - homepage.name=Prowlarr
       - homepage.icon=prowlarr
-      - homepage.href=http://prowlarr.local
+      - homepage.href=https://prowlarr.{{ base_domain }}
       - homepage.description=Index Management
       - homepage.weight=10
 {% if prowlarr_api_key %}
@@ -136,12 +143,14 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.qbittorrent.rule=Host(`torrent.local.lachie.xyz`)
+      - traefik.http.routers.qbittorrent.entrypoints=https
+      - traefik.http.routers.qbittorrent.rule=Host(`torrent.{{ base_domain }}`)
+      - traefik.http.services.qbittorrent.loadbalancer.server.port={{ qbittorrent_port }}
 
       - homepage.group=File Management
       - homepage.name=qBitTorrent
       - homepage.icon=qbittorrent
-      - homepage.href=http://torrent.local
+      - homepage.href=https://torrent.{{ base_domain }}
       - homepage.description=Torrent Downloader
 {% if qbittorrent_username and qbittorrent_password %}
       - homepage.widget.type=qbittorrent
@@ -165,11 +174,13 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
+      - traefik.http.routers.bazarr.entrypoints=https
+
       - homepage.group=File Management
       - homepage.name=Bazarr
       - homepage.icon=bazarr
       - homepage.weight=20
-      - homepage.href=http://bazarr.local
+      - homepage.href=https://bazarr.{{ base_domain }}
       - homepage.description=Subtitle downloader
 {% if bazarr_api_key %}
       - homepage.widget.type=bazarr

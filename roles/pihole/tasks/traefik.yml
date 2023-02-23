@@ -1,8 +1,18 @@
 ---
 # Get rule from routers with provider = "docker"
+- name: Add Traefik API url to /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    state: present
+    regexp: "^{{ item.key }}"
+    line: "{{ item.key }} {{ item.value | regex_replace('^https:\/\/(.*)$', '\\1') }}"
+  when: item.value is defined
+
 - name: Get rules from Traefik
   ansible.builtin.uri:
-    url: http://{{ item }}:8080/api/http/routers
+    url: '{{ item.value | default("http://{{ item.key }}:8080") }}/api/http/routers'
+    user: "{{ traefik_username }}"
+    password: "{{ traefik_password }}"
     return_content: true
   register: traefik_routers
   failed_when: traefik_routers.status != 200
@@ -11,7 +21,7 @@
   ansible.builtin.set_fact:
     dns_overrides: "{{ (dns_overrides | default({})) | combine(new_item) }}"
   vars:
-    new_item: "{ '{{ item }}': {{ traefik_routers.json \
+    new_item: "{ '{{ item.key }}': {{ traefik_routers.json \
       | selectattr('provider', '!=', 'internal') \
       | map(attribute='rule') \
       | map('regex_replace', '^Host\\(`(.*)`\\)$', '\\1') \

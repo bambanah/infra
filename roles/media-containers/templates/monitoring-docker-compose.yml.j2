@@ -21,7 +21,7 @@ services:
     ports:
       - "{{ homepage_port }}:3000"
     dns:
-      - 10.0.0.5 # pihole TODO: Move to variable
+      - "{{ hostvars[groups['pihole'][0]]['ansible_host'] }}" # pihole
       - 1.1.1.1 # Cloudflare
     volumes:
       - /mnt/config/homepage/config:/app/config
@@ -29,6 +29,8 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
+      - traefik.http.routers.homepage.entrypoints=https
+      - traefik.http.routers.homepage.rule=Host(`dash.{{ base_domain }}`)
 
 networks:
   default:
