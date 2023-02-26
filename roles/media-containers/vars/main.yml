@@ -1,7 +1,7 @@
 ---
 # --------------------------- IP/Port Mappings ---------------------------
 
-homepage_port: 3001
+homepage_port: 3000
 
 plex_port: 32400
 

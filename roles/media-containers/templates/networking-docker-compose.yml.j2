@@ -10,7 +10,6 @@ services:
     ports:
       - '80:80'
       - '443:443'
-      - 8080:8080
     environment:
       - CF_API_EMAIL={{ cf_api_email }}
       - CF_DNS_API_TOKEN={{ cf_dns_api_token }}
@@ -48,8 +47,6 @@ services:
       - PGID={{ getent_passwd[username].2 }}
       - TZ={{ timezone }}
       - OOKLA_EULA_GDPR=true
-    ports:
-      - "{{ speedtest_port }}:80"
     volumes:
       - /mnt/config/speedtest:/config
     logging:
@@ -68,7 +65,7 @@ services:
       - homepage.description=Speed Test
       - homepage.weight=20
       - homepage.widget.type=speedtest
-      - homepage.widget.url=http://{{ homepage_base_url }}:{{ speedtest_port }}
+      - homepage.widget.url=http://speedtest:80
 
 networks:
   default:

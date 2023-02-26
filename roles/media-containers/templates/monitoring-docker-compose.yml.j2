@@ -6,8 +6,6 @@ services:
     environment:
       - CONTAINERS=1
       - POST=0
-    ports:
-      - 2375:2375
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: unless-stopped
@@ -18,14 +16,13 @@ services:
     environment:
       - PUID={{ getent_passwd[username].1 }}
       - PGID={{ getent_passwd[username].2 }}
-    ports:
-      - "{{ homepage_port }}:3000"
     dns:
       - "{{ hostvars[groups['pihole'][0]]['ansible_host'] }}" # pihole
       - 1.1.1.1 # Cloudflare
     volumes:
       - /mnt/config/homepage/config:/app/config
       - /mnt/config/homepage/img:/app/public/img
+      - /mnt/data:/mnt/data:ro
     restart: unless-stopped
     labels:
       - traefik.enable=true

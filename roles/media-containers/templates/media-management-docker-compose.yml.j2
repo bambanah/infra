@@ -10,8 +10,6 @@ services:
     volumes:
       - /mnt/config/radarr:/config
       - "{{ data_root }}:/data"
-    ports:
-      - "{{ radarr_port }}:7878/tcp"
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -22,10 +20,10 @@ services:
       - homepage.icon=radarr
       - homepage.href=https://radarr.{{ base_domain }}
       - homepage.description=Movie Management
-      - homepage.weight=10
+      - homepage.weight=20
 {% if radarr_api_key %}
       - homepage.widget.type=radarr
-      - homepage.widget.url=http://{{ homepage_base_url }}:{{ radarr_port }}
+      - homepage.widget.url=http://radarr:7878
       - homepage.widget.key={{ radarr_api_key }}
 {% endif %}
 
@@ -38,8 +36,6 @@ services:
     volumes:
       - /mnt/config/sonarr:/config
       - "{{ data_root }}:/data"
-    ports:
-      - "{{ sonarr_port }}:8989/tcp"
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -50,10 +46,10 @@ services:
       - homepage.icon=sonarr
       - homepage.href=https://sonarr.{{ base_domain }}
       - homepage.description=Series Management
-      - homepage.weight=20
+      - homepage.weight=21
 {% if sonarr_api_key %}
       - homepage.widget.type=sonarr
-      - homepage.widget.url=http://{{ homepage_base_url }}:{{ sonarr_port }}
+      - homepage.widget.url=http://sonarr:8989
       - homepage.widget.key={{ sonarr_api_key }}
 {% endif %}
 
@@ -65,8 +61,6 @@ services:
       - PGID={{ getent_passwd[username].2 }}
     volumes:
       - /mnt/config/overseerr:/config
-    ports:
-      - "{{ overseerr_port }}:5055/tcp"
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -81,7 +75,7 @@ services:
       - homepage.weight=30
 {% if overseerr_api_key %}
       - homepage.widget.type=overseerr
-      - homepage.widget.url=http://{{ homepage_base_url }}:{{ overseerr_port }}
+      - homepage.widget.url=http://overseerr:5055
       - homepage.widget.key={{ overseerr_api_key }}
 {% endif %}
 
@@ -93,8 +87,6 @@ services:
       - PGID={{ getent_passwd[username].2 }}
     volumes:
       - /mnt/config/prowlarr:/config
-    ports:
-      - "{{ prowlarr_port }}:9696/tcp"
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -108,7 +100,7 @@ services:
       - homepage.weight=10
 {% if prowlarr_api_key %}
       - homepage.widget.type=prowlarr
-      - homepage.widget.url=http://{{ homepage_base_url }}:{{ prowlarr_port }}
+      - homepage.widget.url=http://prowlarr:9696
       - homepage.widget.key={{ prowlarr_api_key }}
 {% endif %}
 
@@ -135,11 +127,6 @@ services:
       - /mnt/config/qbittorrent:/config
       - "{{ data_root }}:/data"
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "{{ qbittorrent_port }}:{{ qbittorrent_port }}/tcp"
-      - "{{ qbittorrent_privoxy_port }}:8118/tcp"
-      - "6881:6881"
-      - "6881:6881/udp"
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -154,7 +141,7 @@ services:
       - homepage.description=Torrent Downloader
 {% if qbittorrent_username and qbittorrent_password %}
       - homepage.widget.type=qbittorrent
-      - homepage.widget.url=http://{{ homepage_base_url }}:{{ qbittorrent_port }}
+      - homepage.widget.url=http://qbittorrent:{{ qbittorrent_port }}
       - homepage.widget.username={{ qbittorrent_username }}
       - homepage.widget.password={{ qbittorrent_password }}
 {% endif %}
@@ -169,8 +156,6 @@ services:
     volumes:
       - /mnt/config/bazarr:/config
       - "{{ data_root }}:/data"
-    ports:
-      - "{{ bazarr_port }}:6767"
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -184,7 +169,7 @@ services:
       - homepage.description=Subtitle downloader
 {% if bazarr_api_key %}
       - homepage.widget.type=bazarr
-      - homepage.widget.url=http://{{ homepage_base_url }}:{{ bazarr_port }}
+      - homepage.widget.url=http://bazarr:6767
       - homepage.widget.key={{ bazarr_api_key }}
 {% endif %}
 
