@@ -11,10 +11,13 @@ services:
     volumes:
       - /mnt/config/jellyfin:/config
       - "{{ data_root }}:/data"
+    ports:
+      - 8096:8096/tcp
     restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.jellyfin.entrypoints=https
+      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
 
       - homepage.group=Media
       - homepage.name=Jellyfin
@@ -39,6 +42,8 @@ services:
     volumes:
       - /mnt/config/plex:/config
       - "{{ data_root }}:/data"
+    ports:
+      - 32400:32400/tcp
     restart: unless-stopped
     labels:
       - traefik.enable=true
