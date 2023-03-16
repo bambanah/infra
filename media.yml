@@ -1,5 +1,4 @@
 ---
-# TODO: Mount data drive to /mnt/data
 # TODO: Figure out if it's possible to configure *arr stack with ansible
 - name: Set up machine
   hosts: home
@@ -19,5 +18,7 @@
       tags: "pip"
     - role: geerlingguy.docker
       tags: "docker"
+    - role: nfs
+      tags: "nfs"
     - role: media-containers
       tags: "containers"

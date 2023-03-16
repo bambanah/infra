@@ -2,9 +2,9 @@
 # https://gethomepage.dev/en/configs/widgets
 
 - resources:
-    cpu: true
-    memory: true
-    disk: /
+      cpu: true
+      memory: true
+      disk: /
 
 - resources:
-    disk: /mnt/data
+      disk: /mnt/media

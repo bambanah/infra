@@ -9,7 +9,7 @@ services:
       - PGID={{ getent_passwd[username].2 }}
     volumes:
       - /mnt/config/radarr:/config
-      - "{{ data_root }}:/data"
+      - "{{ media_mnt_dir }}:/data"
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -35,7 +35,7 @@ services:
       - PGID={{ getent_passwd[username].2 }}
     volumes:
       - /mnt/config/sonarr:/config
-      - "{{ data_root }}:/data"
+      - "{{ media_mnt_dir }}:/data"
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -125,7 +125,7 @@ services:
       - LAN_NETWORK=192.168.1.0/24
     volumes:
       - /mnt/config/qbittorrent:/config
-      - "{{ data_root }}:/data"
+      - "{{ media_mnt_dir }}:/data"
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     labels:
@@ -155,7 +155,7 @@ services:
       - TZ={{ timezone }}
     volumes:
       - /mnt/config/bazarr:/config
-      - "{{ data_root }}:/data"
+      - "{{ media_mnt_dir }}:/data"
     restart: unless-stopped
     labels:
       - traefik.enable=true

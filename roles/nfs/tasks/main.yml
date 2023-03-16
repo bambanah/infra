@@ -1,0 +1,12 @@
+---
+- name: Install nfs-common
+  ansible.builtin.package:
+    state: present
+    name: "nfs-common"
+
+- name: Line in /etc/fstab
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    state: present
+    regexp: ".*# managed by ansible$"
+    line: "{{ media_nfs_src }} {{ media_mnt_dir }} nfs auto 0 0 # managed by ansible"

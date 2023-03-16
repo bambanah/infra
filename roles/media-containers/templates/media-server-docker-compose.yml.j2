@@ -10,7 +10,7 @@ services:
       - JELLYFIN_PublishedServerUrl={{ ansible_host }}
     volumes:
       - /mnt/config/jellyfin:/config
-      - "{{ data_root }}:/data"
+      - "{{ media_mnt_dir }}:/data"
     ports:
       - 8096:8096/tcp
     restart: unless-stopped
@@ -41,7 +41,7 @@ services:
       - TZ={{ timezone }}
     volumes:
       - /mnt/config/plex:/config
-      - "{{ data_root }}:/data"
+      - "{{ media_mnt_dir }}:/data"
     ports:
       - 32400:32400/tcp
     restart: unless-stopped

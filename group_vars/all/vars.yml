@@ -18,6 +18,15 @@ ssh_public_key: id_ed25519
 
 base_domain: local.lachie.xyz
 
+# geerlingguy.pip
+pip_install_packages:
+  - name: requests
+  - name: docker
+  - name: docker-compose
+
+# geerlingguy.docker
+docker_install_compose_plugin: true
+
 # geerlingguy.security
 security_sudoers_passwordless: ["{{ username }}"]
 security_autoupdate_enabled: true

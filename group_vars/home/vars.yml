@@ -1,6 +1,9 @@
 ---
 essential_packages:
   - vim
-  - speedtest-cli
+  - curl
 
 ansible_password: "{{ vault_ansible_password }}"
+
+media_nfs_src: "10.0.0.20:/local-zfs/media"
+media_mnt_dir: "/mnt/media"

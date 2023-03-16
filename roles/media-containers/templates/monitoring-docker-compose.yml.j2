@@ -22,7 +22,7 @@ services:
     volumes:
       - /mnt/config/homepage/config:/app/config
       - /mnt/config/homepage/img:/app/public/img
-      - /mnt/data:/mnt/data:ro
+      - /mnt/media:/mnt/media:ro
     restart: unless-stopped
     labels:
       - traefik.enable=true
