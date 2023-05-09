@@ -1,36 +1,5 @@
 version: "3.9"
 services:
-  jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
-    container_name: jellyfin
-    environment:
-      - PUID={{ getent_passwd[username].1 }}
-      - PGID={{ getent_passwd[username].2 }}
-      - TZ={{ timezone }}
-      - JELLYFIN_PublishedServerUrl={{ ansible_host }}
-    volumes:
-      - /mnt/config/jellyfin:/config
-      - "{{ media_mnt_dir }}:/data"
-    ports:
-      - 8096:8096/tcp
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.jellyfin.entrypoints=https
-      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
-
-      - homepage.group=Media
-      - homepage.name=Jellyfin
-      - homepage.icon=jellyfin
-      - homepage.href=https://jellyfin.{{ base_domain }}
-      - homepage.description=Media Server
-      - homepage.weight=15
-{% if jellyfin_api_key %}
-      - homepage.widget.type=jellyfin
-      - homepage.widget.url=http://jellyfin:8096
-      - homepage.widget.key={{ jellyfin_api_key }}
-{% endif %}
-
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
