@@ -2,8 +2,8 @@ version: "3.9"
 
 services:
   traefik:
-    image: "traefik:latest"
     container_name: traefik
+    image: traefik:latest
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
