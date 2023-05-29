@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
@@ -28,10 +29,12 @@ services:
       - traefik.enable=true
       - traefik.http.routers.homepage.entrypoints=https
       - traefik.http.routers.homepage.rule=Host(`dash.{{ base_domain }}`)
+
   watchtower:
     image: containrrr/watchtower:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
 networks:
   default:
     name: media-proxy

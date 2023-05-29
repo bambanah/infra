@@ -39,6 +39,9 @@ bazarr_api_key: "{{ vault_bazarr_api_key }}"
 qbittorrent_username: "{{ vault_qbittorrent_username }}"
 qbittorrent_password: "{{ vault_qbittorrent_password }}"
 
+openvpn_user: "{{ vault_openvpn_user }}"
+openvpn_pass: "{{ vault_openvpn_pass }}"
+
 # Traefik
 traefik_users_file: /mnt/config/traefik/users
 

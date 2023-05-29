@@ -104,6 +104,16 @@ services:
       - homepage.widget.key={{ prowlarr_api_key }}
 {% endif %}
 
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - TZ={{ timezone }}
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.flaresolverr.entrypoints=https
+
   qbittorrent:
     image: binhex/arch-qbittorrentvpn:latest
     container_name: qbittorrent
@@ -119,8 +129,8 @@ services:
       - VPN_ENABLED=yes
       - VPN_PROV=custom
       - VPN_CLIENT=openvpn
-      - VPN_USER=tUJFr84VXBmMHzxT
-      - VPN_PASS=Rkz6P5j2v0k71ysvfLrg6HOVATlL8bv8
+      - VPN_USER={{ openvpn_user }}
+      - VPN_PASS={{ openvpn_pass }}
       - ENABLE_PRIVOXY=no
       - LAN_NETWORK=192.168.1.0/24
     volumes:
@@ -172,6 +182,31 @@ services:
       - homepage.widget.url=http://bazarr:6767
       - homepage.widget.key={{ bazarr_api_key }}
 {% endif %}
+
+  unmanic:
+    container_name: unmanic
+    image: josh5/unmanic:latest
+    environment:
+      - PUID={{ getent_passwd[username].1 }}
+      - PGID={{ getent_passwd[username].2 }}
+      - TZ={{ timezone }}
+    volumes:
+      - /mnt/config/unmanic:/config
+      - "{{ media_mnt_dir }}:/library"
+      - /tmp/unmanic:/tmp/unmanic
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.unmanic.entrypoints=https
+      - homepage.group=File Management
+      - homepage.name=unmanic
+      - homepage.icon=unmanic
+      - homepage.href=https://unmanic.{{ base_domain }}
+      - homepage.description=Automatic file formatter
 
 networks:
   default:
